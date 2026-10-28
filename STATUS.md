@@ -9,14 +9,17 @@ Commands:
 - `init [title] [--target N]` — create a new manuscript (writes `manuscript.json`)
 - `add <chapter> <words> [--date YYYY-MM-DD] [--title "..."]` — log a writing session
 - `status` — total words, target progress, per-chapter totals, current streak, longest streak
+- `list` — show all logged writing sessions (newest first) with a running total
 - `export [file.csv]` — export all sessions to CSV
 
 Storage: a single local JSON file (`manuscript.json` by default). No cloud, no API
 keys, no personal data, no network access. Standard library only (Python 3.8+).
 
-Tests: `tests/test_manuscript.py` — 12 tests covering totals (overall, per-chapter,
-empty, target progress) and date math (current streak, longest streak, gaps,
-single day, no sessions, storage round-trip).
+Tests: `tests/test_manuscript.py` — 18 tests covering totals (overall, per-chapter,
+empty, target progress), date math (current streak, longest streak, gaps, single
+day, no sessions, today-not-written), storage round-trip, list sorting, CSV export
+content, and CLI-level integration (init/status/list, invalid date rejection,
+end-to-end totals).
 
 Files:
 - `manuscript_cli.py` — CLI implementation
@@ -38,17 +41,19 @@ python3 manuscript_cli.py init "My Book" --target 80000
 python3 manuscript_cli.py add 1 1200 --date 2026-10-25 --title "Opening"
 python3 manuscript_cli.py add 2 900 --date 2026-10-26
 python3 manuscript_cli.py status
+python3 manuscript_cli.py list
 python3 manuscript_cli.py export sessions.csv
 python3 -m unittest discover -s tests
 ```
 
 ## Verification results
 
-- `python3 -m unittest discover -s tests`: 12 tests, OK
-- CLI smoke test: init, add (3 sessions across 2 chapters), status, and CSV export
-  all ran successfully; output matched expectations (2700 words, 3.4% of 80k target,
-  longest streak 3 days: 2026-10-25..2026-10-27)
 - `python3 -m py_compile manuscript_cli.py tests/test_manuscript.py`: clean
+- `python3 -m unittest discover -s tests`: 18 tests, OK
+- CLI smoke test: init, add (3 sessions across 2 chapters), status, list, and CSV
+  export all ran successfully; output matched expectations (2700 words, 3.4% of
+  80k target, longest streak 3 days: 2026-10-25..2026-10-27)
+- Invalid date (`--date not-a-date`) correctly rejected with a clear error
 
 ## Known gaps
 

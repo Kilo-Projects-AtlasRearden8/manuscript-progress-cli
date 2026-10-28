@@ -202,6 +202,27 @@ def cmd_export(args):
     return 0
 
 
+def cmd_list(args):
+    data = load_data(args.file)
+    if data is None:
+        print(f"Error: no manuscript at {args.file}. Run 'init' first.")
+        return 1
+    sessions = sorted(data["sessions"], key=lambda s: s.get("date", ""), reverse=True)
+    if not sessions:
+        print("No writing sessions logged yet.")
+        return 0
+    total = 0
+    print("Writing sessions (newest first):")
+    print()
+    for session in sessions:
+        words = int(session.get("words", 0))
+        total += words
+        print(f"  {session.get('date', '')}  |  Chapter {session.get('chapter', '')}  |  {words} words  |  {session.get('title', '')}")
+    print()
+    print(f"Total logged: {total} word(s) across {len(sessions)} session(s).")
+    return 0
+
+
 def build_parser():
     parser = argparse.ArgumentParser(
         description="Track manuscript word count, chapter progress, and writing streaks (local JSON storage)."
@@ -229,6 +250,9 @@ def build_parser():
     p_export = sub.add_parser("export", help="Export sessions to CSV")
     p_export.add_argument("output", nargs="?", default=None, help="Output CSV file (default: manuscript_export.csv)")
     p_export.set_defaults(func=cmd_export)
+
+    p_list = sub.add_parser("list", help="List all logged writing sessions")
+    p_list.set_defaults(func=cmd_list)
 
     return parser
 
