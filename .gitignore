@@ -1,30 +1,34 @@
-# Python
 
-__pycache__/
-*.py[cod]
+# Local manuscript data (example; ignored so you don't commit your draft)
+# OS
+# Python
 *$py.class
+*.egg
+*.egg-info/
+*.log
+*.manifest
+*.py[cod]
+*.pyc
 *.so
+.DS_Store
+.eggs/
+.env
+.env.*
+.installed.cfg
 .python-version
+.venv/
+Thumbs.db
+__pycache__/
 build/
 develop-eggs/
 dist/
+dist/*.tmp
 downloads/
 eggs/
-.eggs/
+manuscript.json
+manuscript_export.csv
+node_modules/
 parts/
 sdist/
 var/
 wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-*.manifest
-*.log
-
-# Local manuscript data (example; ignored so you don't commit your draft)
-manuscript.json
-manuscript_export.csv
-
-# OS
-.DS_Store
-Thumbs.db
