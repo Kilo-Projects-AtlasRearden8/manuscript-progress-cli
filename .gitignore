@@ -1,0 +1,30 @@
+# Python
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.python-version
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+*.manifest
+*.log
+
+# Local manuscript data (example; ignored so you don't commit your draft)
+manuscript.json
+manuscript_export.csv
+
+# OS
+.DS_Store
+Thumbs.db
